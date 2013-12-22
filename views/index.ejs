@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form action='/create' method='post' accept-charset='utf-8'>
+        <input type='text' name='content' />
+    </form>
+    
+    <h2>All todos</h2>
+    <ul>
+    <% todos.forEach(function(todo){ %>
+        <li>
+            <%= todo.content %>
+            Created at: <%= todo.updated_at %>
+            <a href='/destroy/<%= todo.id %>' title='Delete this todo item'>Delete</a>
+        </li>
+    <% }); %>
+    </ul>
+  </body>
+</html>
