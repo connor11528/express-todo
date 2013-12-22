@@ -21,6 +21,7 @@ app.set('view engine', 'ejs');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 
+app.use(cookieParser());
 app.use(express.bodyParser()); // add this before express.json()
 
 app.use(express.json());

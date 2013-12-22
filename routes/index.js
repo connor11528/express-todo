@@ -1,8 +1,13 @@
+var utils = require('../utils');
 var mongoose = require('mongoose');
 var Todo = mongoose.model('Todo');
 
 // index route
 exports.index = function(req, res){
+    //cookies
+    var user_id = req.cookies ?
+        req.cookies.user_id : undefined;
+        
     // query db for all todo items
     Todo.find(function(err, todos, count){
         res.render('index', { 
@@ -45,6 +50,10 @@ exports.edit = function(req, res){
 };
 
 exports.update = function(req, res){
+    //cookies
+    var user_id = req.cookies ?
+        req.cookies.user_id : undefined;
+        
     Todo.findById(req.params.id, function(err, todo){
         todo.content = req.body.content;
         todo.updated_at = Date.now();
@@ -52,6 +61,17 @@ exports.update = function(req, res){
             res.redirect('/');
         });
     });
+};
+
+exports.current_user = function(req, res, next){
+    var user_id = req.cookies ?
+        req.cookies.user_id : undefined;
+    
+    if(!user_id){
+        res.cookie('user_id', utils.uid(32))
+    }
+    
+    next();
 };
 
 
