@@ -32,3 +32,33 @@ exports.destroy = function(req, res){
         });
     });
 };
+
+// edit route
+exports.edit = function(req, res){
+    Todo.find(function(err, todos){
+        res.render('edit', {
+            title: 'edit todo',
+            todos: todos,
+            current: req.params.id
+        });
+    });
+};
+
+exports.update = function(req, res){
+    Todo.findById(req.params.id, function(err, todo){
+        todo.content = req.body.content;
+        todo.updated_at = Date.now();
+        todo.save(function(err, todo, count){
+            res.redirect('/');
+        });
+    });
+};
+
+
+
+
+
+
+
+
+
