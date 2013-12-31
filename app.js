@@ -5,7 +5,7 @@
 require('./db');
 
 var express = require('express');
-var routes = require('./routes');
+
 var http = require('http');
 var path = require('path');
 var engine = require('ejs-locals');
@@ -35,12 +35,31 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// routes
+// todo routes
+var routes = require('./routes');
+
 app.get('/', routes.index);
 app.post('/create', routes.create);
 app.get('/destroy/:id', routes.destroy);
 app.get('/edit/:id', routes.edit);
 app.post('/update/:id', routes.update);
+
+// twitter routes
+var tweets = []; // model definition..
+app.post('/send', function(req, res){
+    if(req.body && req.body.tweet){
+        tweets.push(req.body.tweet);
+        res.send({status: 'ok', message:'tweet received!'})
+    } else {
+        // no tweet
+        res.send({status: 'nok', message: 'tweet not received :('});
+    }
+});
+app.get('/tweets', function(req, res){
+    res.render('tweets',{
+        tweets: tweets
+    });
+});
 
 // create node.js server
 http.createServer(app).listen(app.get('port'), function(){

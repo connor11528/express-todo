@@ -3,12 +3,16 @@ var Todo = mongoose.model('Todo');
 
 // index route
 exports.index = function(req, res){
-        
+    
+    var header = 'Welcome to an express application running with Node.js';
+    
     // query db for all todo items
     Todo.find(function(err, todos, count){
         res.render('index', { 
             title: 'Express Todo app',
-            todos: todos // pass todo items to page
+            todos: todos, // pass todo items to page
+            'header': header,
+            stylesheets: ['/public/stylesheets/style.css']
         });
     });
 };
