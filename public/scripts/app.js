@@ -1,18 +1,23 @@
 'use strict';
 
-angular.module('publicApp', [
+var app = angular.module('battleshipApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
   'ngRoute'
-])
-  .config(function ($routeProvider) {
+]);
+
+app.config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'BattleshipCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
+
+      // enable CORS
+      // $httpProvider.defaults.useXDomain = true;
+      // delete $httpProvider.defaults.headers.common['X-Requested-With'];
   });

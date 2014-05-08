@@ -15,23 +15,17 @@ var db = require('./server/config/db');
 // Routes
 var router = express.Router();
 
-// enable CORS
-app.all('*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
- });
-
 // battleship routes
 app.post('/battleship/register', function(req, res){
+	console.log('hit the route')
 	// send request to platform45 server
-	request("http://battle.platform45.com/register", function(err, res, body){
-		if (!err && res.statusCode == 200){
-			console.log('worked!: ', body)
-		} else {
-			console.log(err)
-		}
-	})
+	request.post("http://battle.platform45.com/register", {form: { "name":"Your name", "email":"connorleech@gmail.com" } },
+		function (err, httpResponse, body) {
+		  if (err) {
+		    return console.error('upload failed:', err);
+		  }
+		  console.log('Upload successful!  Server responded with:', body, ' httpResponse: ', httpResponse);
+		});
 })
 
 // API routes
@@ -52,13 +46,5 @@ app.listen(port, function(){
 // app.set('views', __dirname + '/views');
 // app.set('view engine', 'jade');
 // app.use(favicon());
-// app.use(logger('dev'));
-// app.use(cookieParser()); // for cookies
-// app.use(urlencoded());
-// app.use(methodOverride());
-// app.use(express.static(path.join(__dirname, 'public')));
 
-// // development only
-// if ('development' == app.get('env')) {
-//   app.use(express.errorHandler());
-// }
+// app.use(cookieParser()); // for cookies
