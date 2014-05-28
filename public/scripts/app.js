@@ -1,23 +1,30 @@
 'use strict';
 
-var app = angular.module('battleshipApp', [
+var app = angular.module('express-todo', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
   'ngRoute'
 ]);
 
-app.config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'BattleshipCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
+// bootstrap application
+window.onLoadCallback = function(){
+  // when document's ready
+  angular.element(document).ready(function(){
+    // bootstrap oauth2 library
+    gapi.client.load('oath2', 'v2', function(){
+      // bootstrap angular app
+      angular.bootstrap(document, ['express-todo'])
+    })
+  })
+}
 
-      // enable CORS
-      // $httpProvider.defaults.useXDomain = true;
-      // delete $httpProvider.defaults.headers.common['X-Requested-With'];
-  });
+// routing
+app.config(['$routeProvider', function ($routeProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: 'views/main.html',
+      controller: 'MainCtrl'
+    })
+    .otherwise({ redirectTo: '/' })
+}]);
