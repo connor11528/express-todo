@@ -1,22 +1,36 @@
-var express = require('express'),
-	bodyParser = require('body-parser'),
-	path = require('path'),
-	app = express(),
-    port = process.env.PORT || 3000;
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var port = 3000;
 
-// EXPRESS CONFIG
-app.use(bodyParser())
-app.use(express.static(__dirname + '/public'));
+var app = express();
 
-// ENVIRONMENT CONFIG
-var mode = 'development'
-var env = require('./server/config/environment')[mode]
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-// DATABASE
-require('./server/config/mongoose')(env)
+//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+// telling Express to serve static objects from the /public/ dir, but make it seem like the top level
+app.use(express.static(path.join(__dirname, 'public')));
 
-// ROUTES
-require('./server/config/routes')(app)
+// Routes
+var main = require('./routes/index');
+var todo = require('./routes/todo');
+var todoRouter = express.Router();
+app.use('/todo', todoRouter);
+
+app.get('/', main.index);
+todoRouter.get('/', todo.all);
+todoRouter.post('/create', todo.create);
+todoRouter.get('/destroy/:id', todo.destroy);
+todoRouter.get('/edit/:id', todo.edit);
 
 // Start server
 app.listen(port, function(){

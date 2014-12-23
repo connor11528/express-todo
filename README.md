@@ -1,6 +1,6 @@
 express-todo
 ============
 
-express and mongodb
+This is a basic todo-list application made out of pure javascript.
 
-Tutorial: http://dreamerslab.com/blog/en/write-a-todo-list-with-express-and-mongodb/
+The server uses express, the view templates use jade and the database (will be) MongoDB and the mongoose ORM
