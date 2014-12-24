@@ -17,12 +17,18 @@ module.exports = {
         // create todo
         Todo.create({ content: todoContent }, function(err, todo){
             if(err) res.render('error', { error: 'Error creating your todo :('})
-            
+            // reload collection
             res.redirect('/todos');
         });
     },
     destroy: function(req, res){
-        console.log('Todo deleted')
+        var id = req.params.id;
+        console.log('id: ' + id);
+
+        Todo.findByIdAndRemove(id, function(err, todo){
+            if(err) res.render('error', { error: 'Error deleting todo'});
+            res.redirect('/todos');
+        });
     },
     edit: function(req, res){
         console.log('Todo updated')

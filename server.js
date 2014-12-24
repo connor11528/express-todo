@@ -31,14 +31,14 @@ mongoose.connect('mongodb://localhost/express-todo', function(){
 var main = require('./routes/main');
 var todo = require('./routes/todo');
 var todoRouter = express.Router();
+app.use('/todos', todoRouter);
 
 app.get('/', main.index);
 todoRouter.get('/', todo.all);
 todoRouter.get('/:id', todo.viewOne);
 todoRouter.post('/create', todo.create);
-todoRouter.delete('/destroy/:id', todo.destroy);
-todoRouter.put('/edit/:id', todo.edit);
-app.use('/todos', todoRouter);
+todoRouter.post('/destroy/:id', todo.destroy);
+todoRouter.get('/edit/:id', todo.edit);
 
 // Start server
 app.listen(port, function(){

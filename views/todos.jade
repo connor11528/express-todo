@@ -2,9 +2,12 @@ extends layout
 
 block content
 	h1.text-center All Todos
-	ul
+	.panel.panel-default
 		for todo in todos
-			li #{todo.content}
+			.panel-body
+				a(href='/todos/#{todo._id}') #{todo.content}
+				form(action='/todos/destroy/#{todo._id}', method='post')
+					input.btn.btn-danger.pull-right(type='submit', value='Delete')
 	form(method='post', action='/todos/create')
 		.input-group
 			input.form-control(type='text', placeholder='What do you have to do?', name='content')
