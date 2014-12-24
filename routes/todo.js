@@ -5,6 +5,9 @@ module.exports = {
     all: function(req, res){
         res.send('All todos')
     },
+    viewOne: function(req, res){
+        console.log(req.params.id);
+    },
     create: function(req, res){
         console.log('Todo created')
     },

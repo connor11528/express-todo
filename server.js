@@ -21,16 +21,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-var main = require('./routes/index');
+var main = require('./routes/main');
 var todo = require('./routes/todo');
 var todoRouter = express.Router();
-app.use('/todo', todoRouter);
+app.use('/todos', todoRouter);
 
 app.get('/', main.index);
 todoRouter.get('/', todo.all);
+todoRouter.get('/:id', todo.viewOne);
 todoRouter.post('/create', todo.create);
-todoRouter.get('/destroy/:id', todo.destroy);
-todoRouter.get('/edit/:id', todo.edit);
+todoRouter.delete('/destroy/:id', todo.destroy);
+todoRouter.put('/edit/:id', todo.edit);
 
 // Start server
 app.listen(port, function(){
