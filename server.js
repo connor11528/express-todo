@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 var port = 3000;
 
 var app = express();
@@ -20,11 +21,16 @@ app.use(cookieParser());
 // telling Express to serve static objects from the /public/ dir, but make it seem like the top level
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Database
+require('./config/models/Todo');
+mongoose.connect('mongodb://localhost/express-todo', function(){
+	console.log('connected to database!')
+});
+
 // Routes
 var main = require('./routes/main');
 var todo = require('./routes/todo');
 var todoRouter = express.Router();
-app.use('/todos', todoRouter);
 
 app.get('/', main.index);
 todoRouter.get('/', todo.all);
@@ -32,6 +38,7 @@ todoRouter.get('/:id', todo.viewOne);
 todoRouter.post('/create', todo.create);
 todoRouter.delete('/destroy/:id', todo.destroy);
 todoRouter.put('/edit/:id', todo.edit);
+app.use('/todos', todoRouter);
 
 // Start server
 app.listen(port, function(){

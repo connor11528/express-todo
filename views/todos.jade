@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1.text-center All Todos
+	ul
+		for todo in todos
+			li #{todo.content}
+	form(method='post', action='/todos/create')
+		.input-group
+			input.form-control(type='text', placeholder='What do you have to do?', name='content')
+			span.input-group-btn
+				input.btn.btn-success(type='submit', value='Add Todo')
