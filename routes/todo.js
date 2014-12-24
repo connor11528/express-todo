@@ -3,9 +3,10 @@ var mongoose = require('mongoose'),
 
 module.exports = {
     all: function(req, res){
+        console.log('we are in todo.all')
         Todo.find({}, function(err, todos){
             if(err) res.render('error', { error: 'Could not fetch items from database :('});
-
+            console.log('in the callback')
             res.render('todos', { todos: todos });
         });
     },
