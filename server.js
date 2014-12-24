@@ -38,7 +38,7 @@ todoRouter.get('/', todo.all);
 todoRouter.get('/:id', todo.viewOne);
 todoRouter.post('/create', todo.create);
 todoRouter.post('/destroy/:id', todo.destroy);
-todoRouter.get('/edit/:id', todo.edit);
+todoRouter.post('/edit/:id', todo.edit);
 
 // Start server
 app.listen(port, function(){

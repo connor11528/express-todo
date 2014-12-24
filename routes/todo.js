@@ -10,7 +10,9 @@ module.exports = {
         });
     },
     viewOne: function(req, res){
-        console.log(req.params.id);
+        Todo.find({ _id: req.params.id }, function(err, todo){
+            res.render('todo', { todo: todo[0] })
+        });
     },
     create: function(req, res){
         var todoContent = req.body.content;
@@ -23,7 +25,6 @@ module.exports = {
     },
     destroy: function(req, res){
         var id = req.params.id;
-        console.log('id: ' + id);
 
         Todo.findByIdAndRemove(id, function(err, todo){
             if(err) res.render('error', { error: 'Error deleting todo'});
@@ -31,7 +32,9 @@ module.exports = {
         });
     },
     edit: function(req, res){
-        console.log('Todo updated')
+        Todo.findOneAndUpdate({ _id: req.params.id }, {content: req.body.content}, function(err, todo){
+            res.redirect('/todos');
+        });
     }
 
 };

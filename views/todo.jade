@@ -1,0 +1,8 @@
+extends layout
+
+block content
+	form(method='post', action='/todos/edit/#{todo._id}')
+		h1
+			input(value='#{todo.content}', name='content')
+			input(type='submit', value='Update').btn.btn-primary.btn-lg
+			a(href='/todos').btn.btn-default.btn-lg Back
